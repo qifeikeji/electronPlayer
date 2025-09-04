@@ -81,42 +81,42 @@ jobs:
         else
           echo "Creating basic main.js..."
           cat > dist-electron/main.js << 'EOF'
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
+        const { app, BrowserWindow } = require('electron');
+        const path = require('path');
 
-let mainWindow;
+        let mainWindow;
 
-const createWindow = () => {
-  mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
-    }
-  });
+        const createWindow = () => {
+          mainWindow = new BrowserWindow({
+            width: 1200,
+            height: 800,
+            webPreferences: {
+              nodeIntegration: true,
+              contextIsolation: false
+            }
+          });
 
-  mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
-  
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
-};
+          mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+          
+          mainWindow.on('closed', () => {
+            mainWindow = null;
+          });
+        };
 
-app.whenReady().then(createWindow);
+        app.whenReady().then(createWindow);
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
-});
+        app.on('window-all-closed', () => {
+          if (process.platform !== 'darwin') {
+            app.quit();
+          }
+        });
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
-});
-EOF
+        app.on('activate', () => {
+          if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow();
+          }
+        });
+        EOF
         fi
         
     - name: Build frontend (with fallback)
@@ -129,40 +129,40 @@ EOF
           echo "⚠️ Frontend build failed, creating fallback..."
           mkdir -p dist
           cat > dist/index.html << 'EOF'
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>ElectronPlayer</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            text-align: center;
-            background: rgba(255,255,255,0.1);
-            padding: 2rem;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎬 ElectronPlayer</h1>
-        <p>Modern Media Player</p>
-        <p>Built with Electron</p>
-    </div>
-</body>
-</html>
-EOF
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>ElectronPlayer</title>
+            <style>
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+                .container {
+                    text-align: center;
+                    background: rgba(255,255,255,0.1);
+                    padding: 2rem;
+                    border-radius: 10px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>🎬 ElectronPlayer</h1>
+                <p>Modern Media Player</p>
+                <p>Built with Electron</p>
+            </div>
+        </body>
+        </html>
+        EOF
         fi
       env:
         CI: false
