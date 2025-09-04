@@ -1,60 +1,68 @@
 {
-  "name": "electron_player",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "main": "electron/main.js",
-  "build": {
-    "appId": "com.example.electronplayer",
-    "productName": "Electron Player",
-    "files": [
-      "dist/**/*",
-      "electron/**/*",
-      "package.json"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    },
-    "asar": true,
-    "win": {
-      "icon": "assets/app.ico"
-    },
-    "linux": {
-      "icon": "assets/app.png"
-    },
-    "mac": {
-      "icon": "assets/app.icns"
-    }
-  },
+  "name": "electron-player",
+  "version": "1.0.0",
+  "description": "Modern media player built with Electron and React",
+  "main": "dist-electron/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "start": "cross-env VITE_DEV_SERVER_URL=http://localhost:5173 concurrently \"vite\" \"wait-on http://localhost:5173 && electron .\"",
-    "electron:build": "vite build && electron-builder"
+    "preview": "vite preview",
+    "electron": "electron .",
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "build:linux": "npm run build && electron-builder --linux",
+    "dist": "npm run build && electron-builder --publish=never"
   },
   "dependencies": {
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.1",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
-    "@vitejs/plugin-react-swc": "^3.10.2",
-    "autoprefixer": "^10.4.21",
-    "concurrently": "^9.2.0",
-    "cross-env": "^10.0.0",
-    "electron": "^37.2.0",
-    "electron-builder": "^24.13.2",
-    "eslint": "^9.30.1",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.3.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^3.4.17",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.35.1",
-    "vite": "^7.0.4",
-    "wait-on": "^8.0.3"
-  }
+    "@vitejs/plugin-react": "^4.0.0",
+    "vite": "^5.0.0",
+    "electron": "^27.0.0",
+    "electron-builder": "^24.0.0",
+    "concurrently": "^8.0.0",
+    "wait-on": "^7.0.0"
+  },
+  "build": {
+    "appId": "com.electronplayer.app",
+    "productName": "ElectronPlayer",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "node_modules/**/*"
+    ],
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        }
+      ],
+      "category": "AudioVideo",
+      "synopsis": "Modern media player for desktop",
+      "description": "A feature-rich media player built with Electron and React, supporting multiple video and audio formats with an intuitive interface.",
+      "desktop": {
+        "Name": "ElectronPlayer",
+        "Comment": "Modern Media Player",
+        "Categories": "AudioVideo;Player;Video;Audio;",
+        "MimeType": "video/mp4;video/webm;video/ogg;audio/mp3;audio/wav;audio/ogg;audio/flac;"
+      }
+    },
+    "appImage": {
+      "license": "LICENSE",
+      "category": "AudioVideo"
+    }
+  },
+  "homepage": "./",
+  "author": "Your Name",
+  "license": "MIT"
 }
